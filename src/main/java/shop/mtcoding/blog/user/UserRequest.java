@@ -8,7 +8,6 @@ import lombok.Data;
 
 public class UserRequest {
 
-
     @Data
     public static class JoinDTO {
         private String username;

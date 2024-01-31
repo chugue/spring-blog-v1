@@ -5,14 +5,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.servlet.http.HttpSession;
 
 @Repository
 public class UserRepository {
     private EntityManager em;
 
+
     public UserRepository(EntityManager em) {
         this.em = em;
     }
+
 
     @Transactional
     public void save(UserRequest.JoinDTO requestDTO) {
@@ -20,7 +23,6 @@ public class UserRepository {
         query.setParameter(1, requestDTO.getUsername());
         query.setParameter(2, requestDTO.getPassword());
         query.setParameter(3, requestDTO.getEmail());
-
         query.executeUpdate();
     }
 
@@ -31,5 +33,13 @@ public class UserRepository {
         user.setPassword(requestDTO.getPassword());
         user.setEmail(requestDTO.getEmail());
         em.persist(user);
+    }
+    @Transactional
+    public User findByUsernameAndPassword(UserRequest.LoginDTO requestDTO) {
+        Query query = em.createNativeQuery("select * from user_tb where username=? and password=?", User.class);
+        query.setParameter(1, requestDTO.getUsername());
+        query.setParameter(2, requestDTO.getPassword());
+        User user = (User) query.getSingleResult();
+        return user;
     }
 }
