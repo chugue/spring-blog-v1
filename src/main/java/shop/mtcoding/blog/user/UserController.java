@@ -36,6 +36,7 @@ public class UserController {
         if (requestDTO.getUsername().length() < 3) {
             return "error/400";
         }
+
         //2. 모델 필요 select * from user_tb where username= ? and password = ?
         User user = userRepository.findByUsernameAndPassword(requestDTO);
 
@@ -57,10 +58,14 @@ public class UserController {
         if (requestDTO.getUsername().length() < 3) {
             return "error/400";
         }
-        //2. Model에게 위임하기
-        userRepository.save(requestDTO);
-
-
+        //2. 동일 username 체크 (나중에 하나의 트랜잭션으로 묶는 것이 좋다. )
+        User user = userRepository.findByUsername(requestDTO.getUsername());
+        if (user == null ){
+            //3. Model에게 위임하기
+            userRepository.save(requestDTO);
+        } else {
+            return "error/400";
+        }
         return "redirect:/loginForm";
     }
 
