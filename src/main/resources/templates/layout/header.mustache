@@ -17,7 +17,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto">
                 {{#sessionUser}}
                     <li class="nav-item">
                         <a class="nav-link" href="/board/saveForm">글쓰기</a>
@@ -37,6 +37,10 @@
                         <a class="nav-link" href="/loginForm">로그인</a>
                     </li>
                 {{/sessionUser}}
+                <form class="d-flex">
+                    <input class="form-control me-2" type="text" placeholder="Search">
+                    <button class="btn btn-primary" type="button">Search</button>
+                </form>
             </ul>
         </div>
     </div>
