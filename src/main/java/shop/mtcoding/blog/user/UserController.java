@@ -70,7 +70,6 @@ public class UserController {
 
     @GetMapping("/joinForm")
     public String joinForm() {
-
         return "user/joinForm";
     }
 
