@@ -1,12 +1,13 @@
 package shop.mtcoding.blog.board;
 
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
+import org.qlrm.mapper.JpaResultMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
 import shop.mtcoding.blog._core.Constant;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import java.math.BigInteger;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class BoardRepository {
 
     public int totalPageCount() {
         Query query = em.createNativeQuery("select count(*) from board_tb");
-        BigInteger totalCount = (BigInteger)query.getSingleResult();
+        Long totalCount = (Long)query.getSingleResult();
         return totalCount.intValue();
     }
 
@@ -31,4 +32,12 @@ public class BoardRepository {
     }
 
 
+    public BoardResponse.DetailDTO findById(int id) {
+        // Entity가 아닌 것은 JPA가  파싱 안해준다.
+        Query query = em.createNativeQuery("select bt.id, bt.title, bt.content, bt.created_at, bt.user_id, ut.username from board_tb bt inner join user_tb ut on bt.user_id = ut.id where bt.id = ?"); // 페이지네이션 만들 때는 쿼리 스트링을 쓴다. ?들어가는 것.
+        query.setParameter(1, id);
+        JpaResultMapper rm = new JpaResultMapper();
+        BoardResponse.DetailDTO responseDTO = rm.uniqueResult(query, BoardResponse.DetailDTO.class);
+        return responseDTO;
+    }
 }
