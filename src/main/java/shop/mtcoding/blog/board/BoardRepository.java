@@ -4,7 +4,6 @@ package shop.mtcoding.blog.board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import shop.mtcoding.blog._core.Constant;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigInteger;
@@ -18,7 +17,6 @@ public class BoardRepository {
     public int totalPageCount() {
         Query query = em.createNativeQuery("select count(*) from board_tb");
         BigInteger totalCount = (BigInteger)query.getSingleResult();
-        System.out.println(totalCount);
         return totalCount.intValue();
     }
 
