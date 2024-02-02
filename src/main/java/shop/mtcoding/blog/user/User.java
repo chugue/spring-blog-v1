@@ -22,5 +22,5 @@ public class User {
     private String email;
 
     @CreationTimestamp
-    private LocalDateTime create_at;
+    private LocalDateTime createdAt;
 }

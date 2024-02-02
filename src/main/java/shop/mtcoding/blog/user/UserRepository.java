@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class UserRepository {
     private EntityManager em;
-
-
     public UserRepository(EntityManager em) {
         this.em = em;
     }
